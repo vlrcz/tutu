@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">tutu</string>
+    <string name="sign_up_github_btn">Sign up Github</string>
+    <string name="auth_canceled">Auth canceled</string>
+    <string name="request_failed">Request failed</string>
+    <string name="loading_error">Loading error</string>
+    <string name="list_from_db">List from database</string>
+</resources>
