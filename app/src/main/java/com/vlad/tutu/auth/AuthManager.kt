@@ -17,6 +17,10 @@ class AuthManager @Inject constructor(private val sharedPrefs: SharedPreferences
         return sharedPrefs.getString(ACCESS_TOKEN, null)
     }
 
+    fun containsAccessToken(): Boolean {
+        return sharedPrefs.contains(ACCESS_TOKEN)
+    }
+
     companion object {
         private const val ACCESS_TOKEN = "Access Token"
     }

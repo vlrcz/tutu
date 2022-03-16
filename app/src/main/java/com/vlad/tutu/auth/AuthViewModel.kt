@@ -12,7 +12,8 @@ import net.openid.appauth.TokenRequest
 
 class AuthViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val authService: AuthorizationService
+    private val authService: AuthorizationService,
+    private val authManager: AuthManager
 ) : ViewModel() {
 
     private val openAuthPageLiveData = MutableLiveData<Intent>()
@@ -50,6 +51,10 @@ class AuthViewModel @Inject constructor(
             authRepository.getAuthRequest()
         )
         openAuthPageLiveData.postValue(openAuthPageIntent)
+    }
+
+    fun containsAccessToken(): Boolean {
+        return authManager.containsAccessToken()
     }
 
     override fun onCleared() {

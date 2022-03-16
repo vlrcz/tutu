@@ -14,7 +14,10 @@ import com.vlad.tutu.R.layout
 import com.vlad.tutu.app.appComponent
 import com.vlad.tutu.databinding.FragmentAuthBinding
 import com.vlad.tutu.di.ViewModelFactory
-import com.vlad.tutu.navigation.navigator
+import com.vlad.tutu.navigation.NavigationConstants.REPOSITORIES
+import com.vlad.tutu.navigation.navigate
+import com.vlad.tutu.navigation.screen.FragmentScreen
+import com.vlad.tutu.repository_list.RepoListFragment
 import com.vlad.tutu.toast
 import javax.inject.Inject
 import javax.inject.Provider
@@ -51,6 +54,13 @@ class AuthFragment : Fragment(layout.fragment_auth) {
         context.appComponent.inject(this)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (viewModel.containsAccessToken()) {
+            navigate(FragmentScreen(RepoListFragment(), REPOSITORIES))
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -62,7 +72,7 @@ class AuthFragment : Fragment(layout.fragment_auth) {
             toast(it)
         }
         viewModel.authSuccess.observe(viewLifecycleOwner) {
-            navigator().showRepositoryListFragment()
+            navigate(FragmentScreen(RepoListFragment(), REPOSITORIES))
         }
     }
 

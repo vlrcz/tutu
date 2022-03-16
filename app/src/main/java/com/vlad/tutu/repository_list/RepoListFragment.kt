@@ -13,8 +13,11 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.vlad.tutu.R
 import com.vlad.tutu.app.appComponent
 import com.vlad.tutu.databinding.FragmentRepositoryListBinding
+import com.vlad.tutu.detail.DetailFragment
 import com.vlad.tutu.di.ViewModelFactory
-import com.vlad.tutu.navigation.navigator
+import com.vlad.tutu.navigation.NavigationConstants.DETAIL
+import com.vlad.tutu.navigation.navigate
+import com.vlad.tutu.navigation.screen.FragmentScreen
 import com.vlad.tutu.toast
 import javax.inject.Inject
 import javax.inject.Provider
@@ -25,7 +28,7 @@ class RepoListFragment : Fragment(R.layout.fragment_repository_list) {
     lateinit var viewModelProvider: Provider<RepoListViewModel>
     private val binding: FragmentRepositoryListBinding by viewBinding(FragmentRepositoryListBinding::bind)
     private val viewModel: RepoListViewModel by viewModels { ViewModelFactory { viewModelProvider.get() } }
-    private var repositoryAdapter: RepositoryAdapter = RepositoryAdapter { navigator().showDetailFragment(it) }
+    private var repositoryAdapter: RepositoryAdapter = RepositoryAdapter { navigate(FragmentScreen(DetailFragment.newInstance(it), DETAIL)) }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
