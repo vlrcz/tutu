@@ -9,7 +9,7 @@ import net.openid.appauth.ClientAuthentication
 import net.openid.appauth.ClientSecretPost
 import net.openid.appauth.TokenRequest
 
-class AuthRepository @Inject constructor(private val authManager: AuthManager,) {
+class AuthRepository @Inject constructor(private val authManager: AuthManager) {
 
     fun getAuthRequest(): AuthorizationRequest {
         val serviceConfiguration = AuthorizationServiceConfiguration(

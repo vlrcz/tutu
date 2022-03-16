@@ -1,13 +1,12 @@
 package com.vlad.tutu.feature.repositories.list
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vlad.tutu.R
 import com.vlad.tutu.isNetworkError
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
@@ -15,41 +14,53 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class RepositoriesListViewModel @Inject constructor(
     private val repositoriesRepository: RepositoriesRepository
 ) : ViewModel() {
 
-    private val repoListLiveData = MutableLiveData<List<Repository>>(emptyList())
-    private val toastLiveData = MutableLiveData<Int>()
+    private var state = RepositoriesListState(
+        loading = false,
+        itemsList = emptyList(),
+        isFirstLoad = false
+    )
 
-    val repoList: LiveData<List<Repository>>
-        get() = repoListLiveData
+    private val repositoriesListStateFlow = MutableStateFlow(state)
+    val repositoriesListState = repositoriesListStateFlow.asStateFlow()
 
-    val toast: LiveData<Int>
-        get() = toastLiveData
+    fun firstLoad() {
+        if (!state.isFirstLoad) {
+            state = state.copy(loading = true, isFirstLoad = true)
+            repositoriesListStateFlow.value = state
+            fetchRepositories()
+        }
+    }
 
-    fun getRepositories() {
+    fun refresh() {
+        state = state.copy(itemsList = emptyList(), loading = true)
+        repositoriesListStateFlow.value = state
+        fetchRepositories()
+    }
+
+    private fun fetchRepositories() {
         viewModelScope.launch {
-            flow {
-                emit(repositoriesRepository.getUserRepositories())
-            }
-                .onEach {
-                    repositoriesRepository.insertListOfReposToDb(it)
-                }
+            flow { emit(repositoriesRepository.fetchPublicRepositories()) }
                 .catch {
                     if (it.isNetworkError()) {
-                        toastLiveData.postValue(R.string.list_from_db)
+                        emit(emptyList())
                     } else {
-                        toastLiveData.postValue(R.string.loading_error)
+                        Timber.d("fetch repositories from github error ${it.localizedMessage}")
                     }
                 }
-                .map {
-                    repositoriesRepository.getReposFromDb()
-                }
+                .onEach { repositoriesRepository.insertListOfRepositoriesToDb(it) }
+                .catch { Timber.d("insert repositories to db error ${it.localizedMessage}") }
+                .map { repositoriesRepository.fetchRepositoriesFromDb() }
+                .catch { Timber.d("fetch repositories from db error ${it.localizedMessage}") }
                 .flowOn(Dispatchers.IO)
                 .collect {
-                    repoListLiveData.postValue(it)
+                    state = state.copy(loading = false, itemsList = it)
+                    repositoriesListStateFlow.value = state
                 }
         }
     }

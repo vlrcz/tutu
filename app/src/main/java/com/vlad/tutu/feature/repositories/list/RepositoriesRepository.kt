@@ -8,15 +8,15 @@ class RepositoriesRepository @Inject constructor(
     private val githubApi: GithubApi,
     private val repositoriesDao: RepositoriesDao
 ) {
-    suspend fun getUserRepositories(): List<Repository> {
-        return githubApi.getPublicRepositories()
+    suspend fun fetchPublicRepositories(): List<Repository> {
+        return githubApi.fetchPublicRepositories()
     }
 
-    suspend fun insertListOfReposToDb(list: List<Repository>) {
+    suspend fun insertListOfRepositoriesToDb(list: List<Repository>) {
         repositoriesDao.insertListOfRepositories(list)
     }
 
-    suspend fun getReposFromDb(): List<Repository> {
+    suspend fun fetchRepositoriesFromDb(): List<Repository> {
         return repositoriesDao.fetchRepositories()
     }
 }

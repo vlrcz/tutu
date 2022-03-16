@@ -1,12 +1,12 @@
 package com.vlad.tutu.feature.auth
 
-import android.content.Intent
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.vlad.tutu.R
 import javax.inject.Inject
-import net.openid.appauth.AuthorizationException
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 import net.openid.appauth.AuthorizationService
 import net.openid.appauth.TokenRequest
 
@@ -16,41 +16,33 @@ class AuthViewModel @Inject constructor(
     private val authManager: AuthManager
 ) : ViewModel() {
 
-    private val openAuthPageLiveData = MutableLiveData<Intent>()
-    private val toastLiveData = MutableLiveData<Int>()
-    private val authSuccessLiveData = MutableLiveData<Unit>()
-
-    val openAuthPage: LiveData<Intent>
-        get() = openAuthPageLiveData
-
-    val toast: LiveData<Int>
-        get() = toastLiveData
-
-    val authSuccess: LiveData<Unit>
-        get() = authSuccessLiveData
+    private val eventsChannel = Channel<AuthEvents>(Channel.BUFFERED)
+    val events = eventsChannel.receiveAsFlow()
 
     fun onAuthCodeReceived(tokenRequest: TokenRequest) {
         authRepository.performTokenRequest(
             authService = authService,
             tokenRequest = tokenRequest,
             onComplete = {
-                authSuccessLiveData.postValue(Unit)
+                viewModelScope.launch {
+                    eventsChannel.send(AuthEvents.Success)
+                }
             },
             onError = {
-                toastLiveData.postValue(R.string.auth_canceled)
+                viewModelScope.launch {
+                    eventsChannel.send(AuthEvents.Toast(R.string.auth_canceled))
+                }
             }
         )
-    }
-
-    fun onAuthCodeFailed(exception: AuthorizationException) {
-        toastLiveData.postValue(R.string.auth_canceled)
     }
 
     fun openLoginPage() {
         val openAuthPageIntent = authService.getAuthorizationRequestIntent(
             authRepository.getAuthRequest()
         )
-        openAuthPageLiveData.postValue(openAuthPageIntent)
+        viewModelScope.launch {
+            eventsChannel.send(AuthEvents.OpenAuthPage(openAuthPageIntent))
+        }
     }
 
     fun containsAccessToken(): Boolean {
@@ -61,5 +53,4 @@ class AuthViewModel @Inject constructor(
         super.onCleared()
         authService.dispose()
     }
-
 }

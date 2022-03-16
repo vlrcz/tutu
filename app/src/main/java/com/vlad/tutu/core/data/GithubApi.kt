@@ -6,6 +6,6 @@ import retrofit2.http.GET
 interface GithubApi {
 
     @GET("/repositories")
-    suspend fun getPublicRepositories(): List<Repository>
+    suspend fun fetchPublicRepositories(): List<Repository>
 
 }
