@@ -4,50 +4,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#303030"
     android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppBar"
-            style="?attr/toolbarStyle"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="Album"
-            app:titleTextColor="@android:color/darker_gray" />
+            app:title="@string/repository_detail" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <TextView
-        android:layout_marginTop="100dp"
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/detailId"
+        style="@style/Text.Head.L"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:background="@color/colorPrimaryLight"
         android:gravity="center"
-        android:textColor="#17611A"
-        android:textSize="30sp"
         tools:text="detail id" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/detailName"
+        style="@style/Text.Head.L"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryLight"
         android:gravity="center"
-        android:textColor="#17611A"
-        android:textSize="30sp"
         tools:text="detail name" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/detailFullName"
+        style="@style/Text.Head.L"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryLight"
         android:gravity="center"
-        android:textColor="#17611A"
-        android:textSize="30sp"
         tools:text="detail full name" />
-
 </LinearLayout>

@@ -3,35 +3,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    android:background="#17611A"
+    android:background="@color/colorPrimaryLight"
     android:orientation="vertical">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/idTextView"
+        style="@style/Text.Body.L"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="18sp"
         tools:text="1234141" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/nameTextView"
+        style="@style/Text.Body.L"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="18sp"
         tools:text="Hello-World" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/fullnameTextView"
+        style="@style/Text.Body.L"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="18sp"
         tools:text="octocat/Hello-World" />
 
 </LinearLayout>

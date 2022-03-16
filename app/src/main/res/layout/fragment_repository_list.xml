@@ -4,22 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#303030"
-    android:orientation="vertical"
-    android:padding="5dp">
+    android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppBar"
-            style="?attr/toolbarStyle"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="RepositoryList"
-            app:titleTextColor="@android:color/darker_gray" />
+            app:title="@string/public_repositories" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -29,12 +28,10 @@
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/repositoryList"
+            android:id="@+id/repositoriesList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:itemCount="5"
             tools:listitem="@layout/item_repository" />
-
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
 </LinearLayout>

@@ -59,7 +59,7 @@ class RepoListFragment : Fragment(R.layout.fragment_repository_list) {
             })
     }
 
-    private fun initList() = with(binding.repositoryList) {
+    private fun initList() = with(binding.repositoriesList) {
         repositoryAdapter = RepositoryAdapter { repo ->
             navigator().showDetailFragment(repo)
         }

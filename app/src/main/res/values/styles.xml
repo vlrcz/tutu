@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Tutu.Toolbar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="titleTextAppearance">@style/Text.Head</item>
+        <item name="titleTextColor">@color/white</item>
+        <item name="android:background">@color/colorSecondary</item>
+    </style>
+
+    <style name="Tutu.Button" parent="Widget.Material3.Button">
+        <item name="android:backgroundTint">@color/colorSecondary</item>
+        <item name="android:textAppearance">@style/Text.Body.L</item>
+    </style>
+</resources>
