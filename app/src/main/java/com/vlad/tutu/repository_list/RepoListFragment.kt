@@ -4,8 +4,10 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.vlad.tutu.R
@@ -23,7 +25,7 @@ class RepoListFragment : Fragment(R.layout.fragment_repository_list) {
     lateinit var viewModelProvider: Provider<RepoListViewModel>
     private val binding: FragmentRepositoryListBinding by viewBinding(FragmentRepositoryListBinding::bind)
     private val viewModel: RepoListViewModel by viewModels { ViewModelFactory { viewModelProvider.get() } }
-    private var repositoryAdapter: RepositoryAdapter? = null
+    private var repositoryAdapter: RepositoryAdapter = RepositoryAdapter { navigator().showDetailFragment(it) }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -39,7 +41,7 @@ class RepoListFragment : Fragment(R.layout.fragment_repository_list) {
 
     private fun bindViewModel() {
         viewModel.getRepositories()
-        viewModel.repoList.observe(viewLifecycleOwner) { repositoryAdapter?.submitList(it) }
+        viewModel.repoList.observe(viewLifecycleOwner) { repositoryAdapter.submitList(it) }
         viewModel.toast.observe(viewLifecycleOwner) {
             toast(it)
         }
@@ -59,14 +61,18 @@ class RepoListFragment : Fragment(R.layout.fragment_repository_list) {
             })
     }
 
-    private fun initList() = with(binding.repositoriesList) {
-        repositoryAdapter = RepositoryAdapter { repo ->
-            navigator().showDetailFragment(repo)
+    private fun initList() {
+        val dividerItemDecoration =
+            DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
+        val drawable = ResourcesCompat.getDrawable(resources, R.drawable.divider, null)
+        if (drawable != null) {
+            dividerItemDecoration.setDrawable(drawable)
         }
-        adapter = repositoryAdapter
-        setHasFixedSize(true)
-        layoutManager = LinearLayoutManager(requireContext())
+        with(binding.repositoriesList) {
+            adapter = repositoryAdapter
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(dividerItemDecoration)
+        }
     }
-
-
 }

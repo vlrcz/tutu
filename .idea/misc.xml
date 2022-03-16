@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/tutu/app/src/main/res/drawable/divider.xml" value="0.243" />
         <entry key="..\:/tutu/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
         <entry key="..\:/tutu/app/src/main/res/layout/fragment_auth.xml" value="0.22" />
         <entry key="..\:/tutu/app/src/main/res/layout/fragment_detail.xml" value="0.18854166666666666" />
