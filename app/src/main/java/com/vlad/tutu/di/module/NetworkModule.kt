@@ -2,9 +2,9 @@ package com.vlad.tutu.di.module
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import com.vlad.tutu.auth.AuthConfig
-import com.vlad.tutu.auth.AuthInterceptor
-import com.vlad.tutu.data.GithubApi
+import com.vlad.tutu.feature.auth.AuthConfig
+import com.vlad.tutu.feature.auth.AuthInterceptor
+import com.vlad.tutu.core.data.GithubApi
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -60,7 +60,7 @@ abstract class NetworkModule {
 
         @Provides
         @Singleton
-        fun provideMoshi(): Moshi {
+        fun providesMoshi(): Moshi {
             return Moshi.Builder()
                 .add(KotlinJsonAdapterFactory())
                 .build()

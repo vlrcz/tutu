@@ -2,11 +2,11 @@ package com.vlad.tutu
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.vlad.tutu.auth.AuthFragment
-import com.vlad.tutu.navigation.NavigationConstants.AUTH
-import com.vlad.tutu.navigation.Navigator
-import com.vlad.tutu.navigation.NavigatorHolder
-import com.vlad.tutu.navigation.screen.FragmentScreen
+import com.vlad.tutu.feature.auth.AuthFragment
+import com.vlad.tutu.core.navigation.NavigationConstants.AUTH
+import com.vlad.tutu.core.navigation.Navigator
+import com.vlad.tutu.core.navigation.NavigatorHolder
+import com.vlad.tutu.core.navigation.screen.FragmentScreen
 
 class MainActivity : AppCompatActivity(R.layout.activity_main), NavigatorHolder {
 

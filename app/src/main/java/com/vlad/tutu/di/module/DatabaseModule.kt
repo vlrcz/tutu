@@ -2,8 +2,8 @@ package com.vlad.tutu.di.module
 
 import android.app.Application
 import androidx.room.Room
-import com.vlad.tutu.db.GithubDatabase
-import com.vlad.tutu.db.ReposDao
+import com.vlad.tutu.core.data.db.GithubDatabase
+import com.vlad.tutu.core.data.db.RepositoriesDao
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -23,7 +23,7 @@ class DatabaseModule {
     }
 
     @Provides
-    fun providesActivitiesDao(db: GithubDatabase): ReposDao {
-        return db.reposDao()
+    fun providesRepositoriesDao(db: GithubDatabase): RepositoriesDao {
+        return db.repositoriesDao()
     }
 }
